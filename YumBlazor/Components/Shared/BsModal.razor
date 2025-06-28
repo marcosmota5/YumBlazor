@@ -1,0 +1,42 @@
+﻿<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">@Title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @DeletedObjectName
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" @onclick="() => ConfirmationClicked(false)" style="width:150px">Close</button>
+                <button type="button" class="btn btn-lg @ButtonBootstrapStyle" @onclick="() => ConfirmationClicked(true)" style="width:150px">@ButtonText</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<bool> OnModalConfirmation { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Confirmation";
+
+    [Parameter]
+    public string ButtonBootstrapStyle { get; set; } = "btn-danger";
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Confirm";
+
+    [Parameter]
+    public string DeletedObjectName { get; set; } = "Item";
+
+    private async Task ConfirmationClicked(bool value)
+    {
+        if (value)
+        {
+            await OnModalConfirmation.InvokeAsync(true);
+        }
+    }
+}
